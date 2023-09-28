@@ -2,25 +2,24 @@ import React, {useState,useEffect} from "react";
 import "./App.css";
 
 const App = () => {
-    const [todos, setTodos] = React.useState([]);
+  const [todos, setTodos] = useState([]);
 
-    const [todoEditing, setTodoEditing] = React.useState(null);
+  const [todoEditing, setTodoEditing] = useState(null);
+
 
     useEffect(() => {
-    const json = localStorage.getItem("todos");
-    const loadedTodos = JSON.parse(json);
-    if (loadedTodos) {
-      setTodos(loadedTodos);
-    }
-  }, []);
-
-useEffect(() => {
-    if([todos].length > 0) {
-        const json = JSON.stringify(todos);
-        localStorage.setItem("todos", json);
-    }
-  }, [todos]);
-
+        const json = localStorage.getItem("todos");
+        const loadedTodos = JSON.parse(json);
+        if (loadedTodos) {
+        setTodos(loadedTodos);
+        }
+    }, []);
+    useEffect(() => {
+        if([todos].length > 0) {
+            const json = JSON.stringify(todos);
+            localStorage.setItem("todos", json);
+        }
+    }, [todos]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -75,19 +74,21 @@ useEffect(() => {
             />
             <button type="submit">Add Todo</button>
           </form>
-        {todos.map((todo) => (
+{todos.map((todo) => (
 
-          <div key={todo.id} className="todo">
-            <div className="todo-text">
-              {/* Add checkbox for toggle complete */}
-              <input
-                type="checkbox"
-                id="completed"
-                checked={todo.completed}
-                onChange={() => toggleComplete(todo.id)}
-              />
-              {/* if it is edit mode, display input box, else display text */}
-              {todo.id === todoEditing ?
+<div key={todo.id} className="todo">
+    <div className="todo-text">
+        {/* Add checkbox for toggle complete */}
+
+            <input
+            type="checkbox"
+            id="completed"
+            checked={todo.completed}
+            onChange={() => toggleComplete(todo.id)}
+            />
+
+        {/* if it is edit mode, display input box, else display text */}
+        {todo.id === todoEditing ?
                 (<input
                   type="text"
                   id = {todo.id}
@@ -96,20 +97,20 @@ useEffect(() => {
                 (<div>{todo.text}</div>)
               }
             </div>
-            <div className="todo-actions">
-              {/* if it is edit mode, allow submit edit, else allow edit */}
-              {todo.id === todoEditing ?
-              (
-                <button onClick={() => submitEdits(todo)}>Submit Edits</button>
-              ) :
-              (
-                <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
-              )}
+    <div className="todo-actions">
+      {/* if it is edit mode, allow submit edit, else allow edit */}
+      {todo.id === todoEditing ?
+      (
+        <button onClick={() => submitEdits(todo)}>Submit Edits</button>
+      ) :
+      (
+        <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+      )}
 
-              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-             </div>
-          </div>
-        ))}
+      <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+     </div>
+  </div>
+))}
         </div>
       );
     };
